@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/ping', function () {
+Route::any('/ping', function (Request $request) {
     return [
-        'pong' => true
+        'pong' => true,
+        'data' => $request->all(),
     ];
 });
