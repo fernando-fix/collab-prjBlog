@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function() {
+    return 'This will be an API';
+});
+
 Route::any('/ping', function (Request $request) {
     return [
         'pong' => true,
