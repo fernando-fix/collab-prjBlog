@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,19 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::any('/ping', function (Request $request) {
     return [
-        'pong' => true,
-        'data' => $request->all(),
+        'pong' => true
     ];
 });
 
-Route::post('/login', function (Request $request) {
-});
+Route::post('/register', [UserController::class, 'store']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('me', [AuthController::class, 'me']);
 
-
-Route::middleware('api')->post('/users', function (Request $request) {
-    return User::all();
-});
+Route::get('users', [UserController::class, 'index']);

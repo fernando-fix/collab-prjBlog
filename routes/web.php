@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,14 +14,3 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function() {
-    return 'This will be an API';
-});
-
-Route::any('/ping', function (Request $request) {
-    return [
-        'pong' => true,
-        'data' => $request->all(),
-    ];
-});
