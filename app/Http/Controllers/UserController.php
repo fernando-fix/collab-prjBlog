@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'store', 'show']]);
+    }
+
     public function index()
     {
         return User::all();
@@ -45,8 +50,16 @@ class UserController extends Controller
         return $user;
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
+        if (!$user) {
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
+
+        if (auth()->user()->id != $user->id) {
+            return response()->json(['error' => 'Não é possível alterar outros usuários'], 401);
+        }
+
         try {
             $request->validate([
                 'name' => 'required|string|min:3|max:255',
@@ -63,22 +76,26 @@ class UserController extends Controller
             return response()->json(['error' => $th->getMessage()], 500);
         }
 
-        $user = User::find($id);
-
-        if (!$user) {
-            return response()->json(['error' => 'Usuário não encontrado'], 404);
-        }
-
         $user->update($request->all());
         return $user;
     }
 
-    public function destroy($id)
+    public function show(User $user)
     {
-        $user = User::find($id);
-
         if (!$user) {
             return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
+        return $user;
+    }
+
+    public function destroy(User $user)
+    {
+        if (!$user) {
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
+
+        if (auth()->user()->id != $user->id) {
+            return response()->json(['error' => 'Não é possível excluir outros usuários'], 401);
         }
 
         $user->delete();

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +30,5 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('me', [AuthController::class, 'me']);
 
-Route::resource('users', UserController::class)->only(['index','store', 'update', 'destroy']);
+Route::resource('users', UserController::class)->only(['index', 'store', 'update', 'show', 'destroy']);
+Route::resource('posts', PostController::class)->only(['index', 'store', 'update', 'show', 'destroy']);
