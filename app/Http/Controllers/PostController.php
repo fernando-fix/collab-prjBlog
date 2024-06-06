@@ -41,6 +41,8 @@ class PostController extends Controller
             return response()->json(['error' => $th->getMessage()], 500);
         }
 
+        $request['user_id'] = auth()->user()->id; // Adiciona o ID do usuário autenticado
+
         $post = Post::create($request->all());
 
         if (!$post) {
@@ -70,12 +72,14 @@ class PostController extends Controller
             return response()->json(['error' => $th->getMessage()], 500);
         }
 
-        if (auth()->user()->id != $post->user_id) {
-            return response()->json(['error' => 'Não é possível alterar posts de outros usuários'], 401);
-        }
-
         if (!$post) {
             return response()->json(['error' => 'Post não encontrado'], 404);
+        }
+
+        $request['user_id'] = auth()->user()->id; // Adiciona o ID do usuário autenticado
+
+        if (auth()->user()->id != $post->user_id) {
+            return response()->json(['error' => 'Não é possível deletar posts de outros usuários'], 401);
         }
 
         $post->update($request->all());
