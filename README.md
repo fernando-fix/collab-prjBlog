@@ -36,7 +36,7 @@ Api para integração do blog
 | :----------------- | :--------------- | :------------------------------------------------------ | :------------------------------------- |
 |`GET`               | `api/posts`      | nenhum                                                  | Retorna todos os posts cadastrados     |
 |`GET`               | `api/posts/{id}` | id:integer                                              | Retorna somente um post                |
-|`POST`              | `api/posts`      | title:string, content:text                              | Cadastra um novo post                  |
+|`POST`              | `api/posts`      | title:string, content:text , tag_name:string            | Cadastra um novo post                  |
 |`PUT`               | `api/posts/{id}` | title:string, content:text                              | Atualiza um post                       |
 |`DELETE`            | `api/posts/{id}` | id:integer                                              | Deleta um post                         |
 

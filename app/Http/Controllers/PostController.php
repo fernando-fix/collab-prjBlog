@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -17,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::with('user')->get();
+        return Post::with('user', 'tags')->get();
     }
 
     /**
@@ -30,18 +31,24 @@ class PostController extends Controller
                 'user_id' => 'required',
                 'title' => 'required|string|min:3|max:255',
                 'content' => 'required|string|min:3',
+                'tag_name' => 'required|string|min:3|max:15',
             ], [
                 'title.required' => 'O campo título é obrigatório',
                 'title.min' => 'O título deve ter pelo menos :min caracteres',
                 'title.max' => 'O título deve ter no máximo :max caracteres',
                 'content.required' => 'O campo conteúdo é obrigatório',
                 'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
+                'tag_name.required' => 'O campo TAG é obrigatório',
+                'tag_name.min' => 'O TAG deve ter pelo menos :min caracteres',
+                'tag_name.max' => 'O TAG deve ter no máximo :max caracteres',
             ]);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
         }
 
-        $request['user_id'] = auth()->user()->id; // Adiciona o ID do usuário autenticado
+        if ($request['user_id'] != auth()->user()->id) {
+            return response()->json(['error' => 'Não é possível criar posts para outros usuários'], 401);
+        }
 
         $post = Post::create($request->all());
 
@@ -49,7 +56,14 @@ class PostController extends Controller
             return response()->json(['error' => 'Erro ao criar post'], 500);
         }
 
-        return $post;
+        if (isset($request['tag_name'])) {
+            // maiuscula
+            $request['tag_name'] = strtoupper($request['tag_name']);
+            $tag  = Tag::firstOrCreate(['name' => $request['tag_name']]);
+            $post->tags()->attach($tag->id);
+        }
+
+        return $post->with('user', 'tags')->get();
     }
 
     /**
@@ -83,7 +97,7 @@ class PostController extends Controller
         }
 
         $post->update($request->all());
-        return $post;
+        return $post->load('user', 'tags');
     }
 
     public function show(Post $post)
@@ -91,8 +105,7 @@ class PostController extends Controller
         if (!$post) {
             return response()->json(['error' => 'Post não encontrado'], 404);
         }
-
-        return $post;
+        return $post->load('user', 'tags');
     }
 
     /**
@@ -110,6 +123,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return $post;
+        return $post->load('user', 'tags');
     }
 }
