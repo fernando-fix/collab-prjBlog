@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
@@ -32,3 +33,4 @@ Route::post('me', [AuthController::class, 'me']);
 
 Route::resource('users', UserController::class)->only(['index', 'store', 'update', 'show', 'destroy']);
 Route::resource('posts', PostController::class)->only(['index', 'store', 'update', 'show', 'destroy']);
+Route::resource('comments', CommentController::class)->only(['store', 'update', 'destroy']);

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    private $perpage = 6;
+
     public function __construct()
     {
         $this->middleware('auth:api', ['only' => ['store', 'update', 'destroy']]);
@@ -18,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::with('user', 'tags')->get();
+        return Post::with('user', 'tags', 'comments')->paginate($this->perpage);
     }
 
     /**
@@ -63,7 +66,7 @@ class PostController extends Controller
             $post->tags()->attach($tag->id);
         }
 
-        return $post->with('user', 'tags')->get();
+        return $post->with('user', 'tags', 'comments')->get();
     }
 
     /**
@@ -97,7 +100,7 @@ class PostController extends Controller
         }
 
         $post->update($request->all());
-        return $post->load('user', 'tags');
+        return $post->load('user', 'tags', 'comments');
     }
 
     public function show(Post $post)
@@ -105,7 +108,12 @@ class PostController extends Controller
         if (!$post) {
             return response()->json(['error' => 'Post não encontrado'], 404);
         }
-        return $post->load('user', 'tags');
+
+        $comments = Comment::with('user')->where('post_id', $post->id)->orderBy('created_at', 'desc')->paginate($this->perpage);
+        return response()->json([
+            'post' => $post->load('user', 'tags'),
+            'comments' => $comments
+        ]);
     }
 
     /**
@@ -121,8 +129,12 @@ class PostController extends Controller
             return response()->json(['error' => 'Não é possível deletar posts de outros usuários'], 401);
         }
 
-        $post->delete();
+        $deletePost = $post->delete();
 
-        return $post->load('user', 'tags');
+        if (!$deletePost) {
+            return response()->json(['error' => 'Erro ao deletar post'], 500);
+        }
+
+        return $post->load('user', 'tags', 'comments');
     }
 }
