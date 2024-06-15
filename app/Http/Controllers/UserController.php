@@ -20,22 +20,19 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'name' => 'required|string|min:3|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6',
-            ], [
-                'name.required' => 'O campo nome é obrigatório',
-                'email.required' => 'O campo email é obrigatório',
-                'email.email' => 'O campo email deve ser um email',
-                'email.unique' => 'O email informado ja existe',
-                'password.required' => 'O campo senha é obrigatório',
-                'password.min' => 'A senha deve ter pelo menos :min caracteres',
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 500);
-        }
+
+        $request->validate([
+            'name' => 'required|string|min:3|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ], [
+            'name.required' => 'O campo nome é obrigatório',
+            'email.required' => 'O campo email é obrigatório',
+            'email.email' => 'O campo email deve ser um email',
+            'email.unique' => 'O email informado ja existe',
+            'password.required' => 'O campo senha é obrigatório',
+            'password.min' => 'A senha deve ter pelo menos :min caracteres',
+        ]);
 
         $user = User::create([
             'name' => $request->name,
@@ -60,21 +57,17 @@ class UserController extends Controller
             return response()->json(['error' => 'Não é possível alterar outros usuários'], 401);
         }
 
-        try {
-            $request->validate([
-                'name' => 'required|string|min:3|max:255',
-                'email' => 'required|string|email|max:255',
-                'password' => 'required|string|min:6',
-            ], [
-                'name.required' => 'O campo nome é obrigatório',
-                'email.required' => 'O campo email é obrigatório',
-                'email.email' => 'O campo email deve ser um email',
-                'password.required' => 'O campo senha é obrigatório',
-                'password.min' => 'A senha deve ter pelo menos :min caracteres',
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 500);
-        }
+        $request->validate([
+            'name' => 'required|string|min:3|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
+        ], [
+            'name.required' => 'O campo nome é obrigatório',
+            'email.required' => 'O campo email é obrigatório',
+            'email.email' => 'O campo email deve ser um email',
+            'password.required' => 'O campo senha é obrigatório',
+            'password.min' => 'A senha deve ter pelo menos :min caracteres',
+        ]);
 
         $user->update($request->all());
         return $user;

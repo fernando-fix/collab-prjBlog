@@ -33,18 +33,14 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'user_id' => 'required',
-                'post_id' => 'required',
-                'content' => 'required|string|min:3',
-            ], [
-                'content.required' => 'O campo conteúdo é obrigatório',
-                'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 500);
-        }
+        $request->validate([
+            'user_id' => 'required',
+            'post_id' => 'required',
+            'content' => 'required|string|min:3',
+        ], [
+            'content.required' => 'O campo conteúdo é obrigatório',
+            'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
+        ]);
 
         $createComment = Comment::create($request->all());
         if (!$createComment) {
@@ -75,18 +71,14 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        try {
-            $request->validate([
-                'user_id' => 'required',
-                'post_id' => 'required',
-                'content' => 'required|string|min:3',
-            ], [
-                'content.required' => 'O campo conteúdo é obrigatório',
-                'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 500);
-        }
+        $request->validate([
+            'user_id' => 'required',
+            'post_id' => 'required',
+            'content' => 'required|string|min:3',
+        ], [
+            'content.required' => 'O campo conteúdo é obrigatório',
+            'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
+        ]);
 
         if (!$comment) {
             return response()->json(['error' => 'Comentário não encontrado'], 404);
