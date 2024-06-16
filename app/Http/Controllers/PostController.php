@@ -19,8 +19,16 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if (isset($request['search'])) {
+            return Post::with('user', 'tags', 'comments')->where('title', 'like', '%' . $request['search'] . '%')
+                ->orWhereHas('user', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request['search'] . '%');
+                })
+                ->paginate($this->perpage);
+        }
+
         return Post::with('user', 'tags', 'comments')->paginate($this->perpage);
     }
 
