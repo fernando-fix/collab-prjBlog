@@ -26,6 +26,7 @@ class PostController extends Controller
                 ->orWhereHas('user', function ($query) use ($request) {
                     $query->where('name', 'like', '%' . $request['search'] . '%');
                 })
+                ->orderBy('created_at', 'desc')
                 ->paginate($this->perpage);
         }
 
