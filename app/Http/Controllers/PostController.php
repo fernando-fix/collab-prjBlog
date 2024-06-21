@@ -30,7 +30,7 @@ class PostController extends Controller
                 ->paginate($this->perpage);
         }
 
-        return Post::with('user', 'tags', 'comments')->paginate($this->perpage);
+        return Post::with('user', 'tags', 'comments')->orderBy('created_at', 'desc')->paginate($this->perpage);
     }
 
     /**
@@ -42,16 +42,16 @@ class PostController extends Controller
             'user_id' => 'required',
             'title' => 'required|string|min:3|max:255',
             'content' => 'required|string|min:3',
-            'tag_name' => 'required|string|min:3|max:15',
+            'tags' => 'required|array|min:3|max:10',
         ], [
             'title.required' => 'O campo título é obrigatório',
             'title.min' => 'O título deve ter pelo menos :min caracteres',
             'title.max' => 'O título deve ter no máximo :max caracteres',
             'content.required' => 'O campo conteúdo é obrigatório',
             'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
-            'tag_name.required' => 'O campo TAG é obrigatório',
-            'tag_name.min' => 'O TAG deve ter pelo menos :min caracteres',
-            'tag_name.max' => 'O TAG deve ter no máximo :max caracteres',
+            'tags.required' => 'O campo TAG é obrigatório',
+            'tags.min' => 'O TAG deve ter pelo menos :min caracteres',
+            'tags.max' => 'O TAG deve ter no máximo :max caracteres',
         ]);
 
         if ($request['user_id'] != auth()->user()->id) {
@@ -64,14 +64,18 @@ class PostController extends Controller
             return response()->json(['error' => 'Erro ao criar post'], 500);
         }
 
-        if (isset($request['tag_name'])) {
+        if (isset($request['tags'])) {
             // maiuscula
-            $request['tag_name'] = strtoupper($request['tag_name']);
-            $tag  = Tag::firstOrCreate(['name' => $request['tag_name']]);
-            $post->tags()->attach($tag->id);
+            $new_tags = [];
+            foreach ($request['tags'] as $tag) {
+                $request['tags'] = strtoupper($tag);
+                $tag  = Tag::firstOrCreate(['name' => $tag]);
+                array_push($new_tags, $tag->id);
+            }
+            $post->tags()->attach($new_tags);
         }
 
-        return $post->with('user', 'tags', 'comments')->get();
+        return $post->load('user', 'tags', 'comments');
     }
 
     /**
