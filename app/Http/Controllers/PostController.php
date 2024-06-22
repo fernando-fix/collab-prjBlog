@@ -42,7 +42,7 @@ class PostController extends Controller
             'user_id' => 'required',
             'title' => 'required|string|min:3|max:255',
             'content' => 'required|string|min:3',
-            'tags' => 'required|array|min:3|max:10',
+            'tags' => 'required|array|min:1|max:3',
         ], [
             'title.required' => 'O campo título é obrigatório',
             'title.min' => 'O título deve ter pelo menos :min caracteres',
@@ -50,8 +50,8 @@ class PostController extends Controller
             'content.required' => 'O campo conteúdo é obrigatório',
             'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
             'tags.required' => 'O campo TAG é obrigatório',
-            'tags.min' => 'O TAG deve ter pelo menos :min caracteres',
-            'tags.max' => 'O TAG deve ter no máximo :max caracteres',
+            'tags.min' => 'É necessário enviar ao menos :min TAG',
+            'tags.max' => 'É possível enviar no máximo :max TAGs',
         ]);
 
         if ($request['user_id'] != auth()->user()->id) {
