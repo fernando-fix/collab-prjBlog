@@ -21,16 +21,30 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        if (isset($request['search'])) {
-            return Post::with('user', 'tags', 'comments')->where('title', 'like', '%' . $request['search'] . '%')
-                ->orWhereHas('user', function ($query) use ($request) {
-                    $query->where('name', 'like', '%' . $request['search'] . '%');
-                })
-                ->orderBy('created_at', 'desc')
-                ->paginate($this->perpage);
+        $query = Post::with('user', 'tags', 'comments');
+
+        // Se houver busca
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%');
+                $query->orWhereHas('user', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                });
+            });
         }
 
-        return Post::with('user', 'tags', 'comments')->orderBy('created_at', 'desc')->paginate($this->perpage);
+        // Se houver tag
+        if (isset($request->tag)) {
+            if (!Tag::where('name',  $request->tag)->first())
+                return response()->json(['error' => 'Tag inexistente'], 404);
+            $query->whereHas('tags', function ($query) use ($request) {
+                $query->where('name', $request->tag);
+            });
+        }
+
+        $posts =  $query->orderBy('created_at', 'desc')->paginate($this->perpage);
+        return response()->json($posts);
     }
 
     /**
