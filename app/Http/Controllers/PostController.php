@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\PostTag;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class PostController extends Controller
 {
@@ -79,14 +82,19 @@ class PostController extends Controller
         }
 
         if (isset($request['tags'])) {
-            // maiuscula
             $new_tags = [];
-            foreach ($request['tags'] as $tag) {
-                $request['tags'] = strtoupper($tag);
-                $tag  = Tag::firstOrCreate(['name' => $tag]);
-                array_push($new_tags, $tag->id);
+            foreach ($request['tags'] as $tagName) {
+                $tagSlug = Str::upper(Str::slug($tagName)); //converte para slug(tira acentos) e depois maiuscula
+                $tag = Tag::firstOrCreate([
+                    'name' => $tagName,
+                    'slug' => $tagSlug,
+                ]);
+
+                $postTag = PostTag::firstOrCreate([
+                    'post_id' => $post->id,
+                    'tag_id' => $tag->id,
+                ]);
             }
-            $post->tags()->attach($new_tags);
         }
 
         return $post->load('user', 'tags', 'comments');

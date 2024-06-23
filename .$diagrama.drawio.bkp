@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-06-22T23:59:07.826Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.4.8 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="nLYmCPJUQkvi8dNRN5dz" version="24.4.8" type="device">
+<mxfile host="Electron" modified="2024-06-22T23:59:01.419Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.4.8 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="AddmEw1lYz6HezYOKtQ6" version="24.4.8" type="device">
   <diagram name="Página-1" id="-tzufLfqiQ1hEal3u5DM">
     <mxGraphModel dx="333" dy="194" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -360,7 +360,7 @@
             <mxRectangle width="40" height="20" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="S_4yab8JMK-RZyM8oyDy-3" value="slug" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=0;overflow=hidden;whiteSpace=wrap;html=1;" vertex="1" parent="S_4yab8JMK-RZyM8oyDy-1">
+        <mxCell id="S_4yab8JMK-RZyM8oyDy-3" value="name" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=0;overflow=hidden;whiteSpace=wrap;html=1;" vertex="1" parent="S_4yab8JMK-RZyM8oyDy-1">
           <mxGeometry x="40" width="80" height="20" as="geometry">
             <mxRectangle width="80" height="20" as="alternateBounds" />
           </mxGeometry>
