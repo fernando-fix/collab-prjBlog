@@ -49,6 +49,12 @@ Api para integração do blog
 |`PUT`       | `api/comments/{id}` | id:integer, title:string, content:string                        | Atualiza um comentário                 |
 |`DELETE`    | `api/comments/{id}` | id:integer                                                      | Deleta um comentário                   |
 
+### Requisições de tags
+
+| Requisição | Endpoint            | Parâmetros                                                      | Detalhes                               |
+| :--------- | :------------------ | :-------------------------------------------------------------- | :------------------------------------- |
+|`GET`       | `api/tags`          | nenhum                                                          | Retorna todos as tags cadastrados      |
+
 ##
 
 BaseUrl:

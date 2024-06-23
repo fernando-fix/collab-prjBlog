@@ -12,7 +12,10 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tag::withCount('posts')
+            ->orderBy('posts_count', 'desc')
+            ->get();
+        return response()->json($tags);
     }
 
     /**
