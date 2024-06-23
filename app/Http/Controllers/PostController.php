@@ -84,7 +84,8 @@ class PostController extends Controller
         if (isset($request['tags'])) {
             $new_tags = [];
             foreach ($request['tags'] as $tagName) {
-                $tagSlug = Str::upper(Str::slug($tagName)); //converte para slug(tira acentos) e depois maiuscula
+                $tagName = Str::upper(trim($tagName));
+                $tagSlug = Str::slug($tagName);
                 $tag = Tag::firstOrCreate([
                     'name' => $tagName,
                     'slug' => $tagSlug,
