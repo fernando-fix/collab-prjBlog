@@ -3,7 +3,7 @@
 
 Projeto de desenvolvimento de uma API para integração de um Blog.
 Este projeto está sendo desenvolvido em conjunto com Paulo P. Junior para exercitar as habilidades de trabalho em grupo.
-Obs.: O projeto está alocado em um raspberry pi com sistema operacional UBUNTU SERVER.
+Obs.: O projeto está alocado em um raspberry pi com sistema operacional Ubuntu Server.
 
 ## Autores
 
