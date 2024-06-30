@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\PostTag;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+
 
 
 class PostController extends Controller
@@ -53,24 +55,8 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $request->validate([
-            'user_id' => 'required',
-            'title' => 'required|string|min:3|max:255',
-            'content' => 'required|string|min:3',
-            'tags' => 'required|array|min:1|max:3',
-        ], [
-            'title.required' => 'O campo título é obrigatório',
-            'title.min' => 'O título deve ter pelo menos :min caracteres',
-            'title.max' => 'O título deve ter no máximo :max caracteres',
-            'content.required' => 'O campo conteúdo é obrigatório',
-            'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
-            'tags.required' => 'O campo TAG é obrigatório',
-            'tags.min' => 'É necessário enviar ao menos :min TAG',
-            'tags.max' => 'É possível enviar no máximo :max TAGs',
-        ]);
-
         if ($request['user_id'] != auth()->user()->id) {
             return response()->json(['error' => 'Não é possível criar posts para outros usuários'], 401);
         }
@@ -104,19 +90,8 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        $request->validate([
-            'title' => 'required|string|min:3|max:255',
-            'content' => 'required|string|min:3',
-        ], [
-            'title.required' => 'O campo título é obrigatório',
-            'title.min' => 'O título deve ter pelo menos :min caracteres',
-            'title.max' => 'O título deve ter no máximo :max caracteres',
-            'content.required' => 'O campo conteúdo é obrigatório',
-            'content.min' => 'O conteúdo deve ter pelo menos :min caracteres',
-        ]);
-
         if (!$post) {
             return response()->json(['error' => 'Post não encontrado'], 404);
         }
