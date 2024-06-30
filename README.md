@@ -1,11 +1,24 @@
 
 # API
 
-Api para integração do blog
+Projeto de desenvolvimento de uma API para integração de um Blog.
+Este projeto está sendo desenvolvido em conjunto com Paulo P. Junior para exercitar as habilidades de trabalho em grupo.
+Obs.: O projeto está alocado em um raspberry pi com os ubuntu server.
+
+## Autores
+
+- [@fernando-fix](https://www.github.com/fernando-fix) - Back End
+- [@paulo-pacheco-junior](https://github.com/paulo-pacheco-junior) - Front End
 
 ## Stack utilizada
 
 **Back-end:** PHP 8.2, Laravel 10
+**Front-end:** ReactJS
+
+## Repositórios
+
+- [FRONT](https://github.com/Paulo-Pacheco-Junior/collab-prjblog-reactjs)
+- [BACK](https://github.com/fernando-fix/collab-prjBlog)
 
 ## Documentação da API
 
