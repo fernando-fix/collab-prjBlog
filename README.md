@@ -31,18 +31,18 @@ Obs.: O projeto está alocado em um raspberry pi com sistema operacional Ubuntu 
 
 ### Requisições de usuário
 
-| Requisição | Endpoint            | Parâmetros                                                      | Detalhes                               |
-| :--------- | :------------------ | :-------------------------------------------------------------- | :------------------------------------- |
-|`GET`       | `api/users`         | nenhum                                                          | Retorna todos os usuários              |
-|`GET`       | `api/users/{id}`    | id:integer                                                      | Retorna um usuário                     |
-|`POST`      | `api/users`         | name:string, email:string, password:string                      | Cadastra um novo usuário               |
-|`POST`      | `api/login`         | email:string, password:string                                   | Faz login com usuário existente        |
-|`POST`      | `api/logout`        | nenhum                                                          | Faz logout                             |
-|`POST`      | `api/me`            | nenhum                                                          | Retorna usuário logado                 |
-|`POST`      | `api/refresh`       | nenhum                                                          | Gera um novo token para a sessão atual |
-|`PUT`       | `api/users/{id}`    | id:integer, name:string, email:string, password:string          | Atualiza usuário                       |
-|`DELETE`    | `api/users/{id}`    | id:integer                                                      | Deleta um usuário                      |
-
+| Requisição | Endpoint            | Parâmetros                                                                 | Detalhes                               |
+| :--------- | :------------------ | :------------------------------------------------------------------------- | :------------------------------------- |
+|`GET`       | `api/users`         | nenhum                                                                     | Retorna todos os usuários              |
+|`GET`       | `api/users/{id}`    | id:integer                                                                 | Retorna um usuário                     |
+|`POST`      | `api/users`         | name:string, email:string, password:string, password_confirmation:string   | Cadastra um novo usuário               |
+|`POST`      | `api/login`         | email:string, password:string                                              | Faz login com usuário existente        |
+|`POST`      | `api/logout`        | nenhum                                                                     | Faz logout                             |
+|`POST`      | `api/me`            | nenhum                                                                     | Retorna usuário logado                 |
+|`POST`      | `api/refresh`       | nenhum                                                                     | Gera um novo token para a sessão atual |
+|`PUT`       | `api/users/{id}`    | id:integer, name:string, email:string, password:string                     | Atualiza usuário                       |
+|`DELETE`    | `api/users/{id}`    | id:integer                                                                 | Deleta um usuário                      |
+                              
 ### Requisições de posts
 
 | Requisição | Endpoint            | Parâmetros                                                      | Detalhes                               |
