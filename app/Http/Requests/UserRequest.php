@@ -25,6 +25,7 @@ class UserRequest extends FormRequest
             'name' => 'required|string|min:3|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
+            'password_confirmation' => 'required_with:password|same:password|min:6',
         ];
     }
 
@@ -37,6 +38,8 @@ class UserRequest extends FormRequest
             'email.unique' => 'O email informado já existe',
             'password.required' => 'O campo senha é obrigatório',
             'password.min' => 'A senha deve ter pelo menos :min caracteres',
+            'password_confirmation.required_with' => 'O campo confirmar senha é obrigatório',
+            'password_confirmation.same' => 'As senhas informadas não conferem',
         ];
     }
 }
