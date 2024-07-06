@@ -9,8 +9,7 @@ use App\Models\PostTag;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -57,6 +56,9 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
+        DB::beginTransaction();
+        $errors = [];
+
         if ($request['user_id'] != auth()->user()->id) {
             return response()->json(['error' => 'Não é possível criar posts para outros usuários'], 401);
         }
@@ -77,14 +79,28 @@ class PostController extends Controller
                     'slug' => $tagSlug,
                 ]);
 
+                if (!$tag) {
+                    $errors[] = 'Erro ao criar tag';
+                }
+
                 $postTag = PostTag::firstOrCreate([
                     'post_id' => $post->id,
                     'tag_id' => $tag->id,
                 ]);
+
+                if (!$postTag) {
+                    $errors[] = 'Erro ao vincular tag ao post';
+                }
             }
         }
 
-        return $post->load('user', 'tags', 'comments');
+        if (count($errors) == 0) {
+            DB::commit();
+            return $post->load('user', 'tags', 'comments');
+        }
+
+        DB::rollBack();
+        return response()->json(['error' => $errors], 500);
     }
 
     /**
