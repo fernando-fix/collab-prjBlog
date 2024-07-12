@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\EditUserRequest;
 use App\Models\User;
 
 class UserController extends Controller
@@ -18,7 +19,7 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function store(UserRequest $request)
+    public function store(CreateUserRequest $request)
     {
         $user = User::create([
             'name' => $request->name,
@@ -33,7 +34,7 @@ class UserController extends Controller
         return $user;
     }
 
-    public function update(UserRequest $request, User $user)
+    public function update(EditUserRequest $request, User $user)
     {
         if (!$user) {
             return response()->json(['error' => 'Usuário não encontrado'], 404);
