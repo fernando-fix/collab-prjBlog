@@ -14,13 +14,7 @@ class Tag extends Model
         'slug',
     ];
 
-    // Relationships
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
+    // Relationships    
     public function posts()
     {
         return $this->belongsToMany(Post::class);
